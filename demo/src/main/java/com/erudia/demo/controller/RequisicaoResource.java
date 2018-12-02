@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import javax.annotation.Generated;
 
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,33 +26,33 @@ public class RequisicaoResource {
 
   //  String resp = JythonComunication.SendToPython(mIndex, fala);
                                                                         //Preço e Qtd de Vizualização
-    @GetMapping("/busca/{pesquisa}/{categoria}/{idCliente}/{valormin}/{valormax}/{ordenacao}")
+    @GetMapping("/busca/{pesquisa}/{categoria}/{idCliente}/{valormin}/{valormax}/{ordenacao}") // 'menor_preco', 'maior_preco','popularidade'
     public String buscar(@PathVariable String pesquisa, @PathVariable String categoria, @PathVariable String idCliente , @PathVariable String valormin, @PathVariable String valormax, @PathVariable String ordenacao ) {
         //TODO Parsear Categoria 
         //String entradaDaBusca = "camisa,masculina|moderna|nike,0,2,DESC"
         String entradaDaBusca = pesquisa  + "," + categoria + "," + idCliente + ","  +  valormax  + "," + valormin  + "," + ordenacao;
 //        String resp = JythonComunication.SendToPython(mIndexBuscar, entradaDaBusca);
         HashMap<String, Object> map = new HashMap<>();
-        return "{2,3,6,8,10,12,14,15,18,21,22,28,32,45}";
+        return "[2,3,6,8,10,12,14,15,18,21,22,28,32,45]";
     }
 
-    @GetMapping("/maispop")
-    public String buscarMaisPopulares() {
+    @GetMapping("/maispop/{numeroProdutos}")//devolve recomendação pagina inicial
+    public String buscarMaisPopulares(@PathVariable int numeroProdutos) {
   //      String respostaDosPopulares = JythonComunication.SendToPython(mIndexBuscarMaisPopulares, "");
         HashMap<String, Object> map = new HashMap<>();
-        return "{4,5,6,7,8,10,14,16,20,23,26,27,34,45}";
+        return "[4,5,6,7,8,10,14,16,20,23,26,27,34,45]";
     }
 
-    @GetMapping("/bucarrelacionado/{idCliente}/{idProduto}") //devolve 5 itens
-    public String recomendacaoDadoProduto(@PathVariable int idCliente, @PathVariable int idProduto) {
+    @GetMapping("/bucarrelacionado/{idCliente}/{numeroProdutos}") //devolve 5 itens
+    public String recomendacaoDadoProduto(@PathVariable int idCliente, @PathVariable int numeroProdutos) {
     //    String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRecomendacao, "" + idCliente + "," + idProduto);
-        return "{1,2,3,5,6,9,10,12,13,17,19,21,32,45}";
+        return "[1,2,3,5,6,9,10,12,13,17,19,21,32,45]";
     }
 
-    @GetMapping("/retornesugestao/{Produto}")
-    public String retorneSugestoes(@PathVariable String  Produto) {
-        String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRetorneSugestao, Produto );
-        return "{1,2,3,4,5,6,7,8,9,10}";
+    @GetMapping("/retornesugestao/{busca}")// sugestão, de complemento lista de strings 
+    public String retorneSugestoes(@PathVariable String  busca) {
+        String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRetorneSugestao, busca);
+        return "[camiseta, camisa]";
     }
 
     private HashMap<String,Object> montar(String p) {
