@@ -31,28 +31,28 @@ public class RequisicaoResource {
         //TODO Parsear Categoria 
         //String entradaDaBusca = "camisa,masculina|moderna|nike,0,2,DESC"
         String entradaDaBusca = pesquisa  + "," + categoria + "," + idCliente + ","  +  valormax  + "," + valormin  + "," + ordenacao;
-//        String resp = JythonComunication.SendToPython(mIndexBuscar, entradaDaBusca);
+        String resp = JythonComunication.SendToPython(mIndexBuscar, entradaDaBusca);
         HashMap<String, Object> map = new HashMap<>();
-        return "[2,3,6,8,10,12,14,15,18,21,22,28,32,45]";
+        return resp;
     }
 
     @GetMapping("/maispop/{numeroProdutos}")//devolve recomendação pagina inicial
     public String buscarMaisPopulares(@PathVariable int numeroProdutos) {
-  //      String respostaDosPopulares = JythonComunication.SendToPython(mIndexBuscarMaisPopulares, "");
+        String respostaDosPopulares = JythonComunication.SendToPython(mIndexBuscarMaisPopulares, "");
         HashMap<String, Object> map = new HashMap<>();
-        return "[4,5,6,7,8,10,14,16,20,23,26,27,34,45]";
+        return respostaDosPopulares;
     }
 
     @GetMapping("/bucarrelacionado/{idCliente}/{numeroProdutos}") //devolve 5 itens
     public String recomendacaoDadoProduto(@PathVariable int idCliente, @PathVariable int numeroProdutos) {
-    //    String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRecomendacao, "" + idCliente + "," + idProduto);
-        return "[1,2,3,5,6,9,10,12,13,17,19,21,32,45]";
+        String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRecomendacao, "" + idCliente + "," + numeroProdutos);
+        return recomendacaoParaCliente;
     }
 
     @GetMapping("/retornesugestao/{busca}")// sugestão, de complemento lista de strings 
     public String retorneSugestoes(@PathVariable String  busca) {
         String recomendacaoParaCliente = JythonComunication.SendToPython(mIndexRetorneSugestao, busca);
-        return "[camiseta, camisa]";
+        return recomendacaoParaCliente;
     }
 
     private HashMap<String,Object> montar(String p) {
